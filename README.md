@@ -15,6 +15,21 @@ use-cases where practitioners need to compute mathematical calculus on
 geo-data represented by (lat,lon) pairs.
 
 
+How to use these resources?
+---------------------------
+
+The repository provides several ready-to-be-used bindings blocks of
+SPARQL 1.1. Practically, the various funtions are split in several
+files which are all self-contained. They are all adopting the same
+structure.
+
+Warning: If a specific requires to use several blocks within the same
+final SPARQL query, the query designer will have to pay attention to
+the multiple intermediate variables (e.g. ?sub1, ?sub2, ...) to be
+sure that the same (sub-)variable will not be called by different
+feature-blocks, otherwise renaming actions should be taken!
+
+
 Repository files
 ----------------
 
