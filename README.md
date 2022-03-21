@@ -39,7 +39,8 @@ This repository contains:
 - `distance_great_circle.txt`: taking two (lat,lon) points, returns their great-circle distance on Earth;
 - `distance_equirectangular_approx.txt`: performs an equirectangular approximation to compute the distance between points;
 - `distance_to_horizon.txt`: returns the distance to the horizon from a specific height;
-- `initial_bearing_great_circle.txt`: gives the initial bearing for a great-circle course between two points; 
+- `initial_bearing_great_circle.txt`: gives the initial bearing for a great-circle course between two points;
+- `mid_point_great_circle.txt`: computes the coordinates (lat,lon) in radians of the mid-point of a great-circle course between two points (considering their lat/lon coordinates in degrees);
 - `LICENSE`.
 
 

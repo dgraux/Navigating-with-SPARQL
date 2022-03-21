@@ -1,0 +1,230 @@
+
+# Mid-Point of a journey along a great-circle course
+# ==================================================
+#
+# Damien Graux (Inria), 2022
+
+# This file provides a SPARQL set of bindings used to compute the
+# latitude and longitude (in radians) of the mid-point of a journey
+# taking a great-circle path on Earth from A to B (both in degrees).
+
+# General useful bindings
+BIND ( xsd:double("3.14159265359") AS ?PI )  # π (11 digits).
+BIND ( xsd:double("6.28318530718") AS ?2PI ) # 2π (11 digits).
+
+# [Inputs] It assumes that the variables representing the points are
+# respectively ( ?lat1 , ?lon1 ) and ( ?lat2 , ?lon2 ) and that they
+# are represented in degrees.
+
+# Possible conversions in radians:
+BIND ( (xsd:double(?lat1) * ?PI/180) AS ?lar1 )
+BIND ( (xsd:double(?lon1) * ?PI/180) AS ?lor1 )
+BIND ( (xsd:double(?lat2) * ?PI/180) AS ?lar2 )
+BIND ( (xsd:double(?lon2) * ?PI/180) AS ?lor2 )
+
+BIND ( ((xsd:double(?lat2)-xsd:double(?lat1)) * ?PI/180) AS ?dellar )
+BIND ( ((xsd:double(?lon2)-xsd:double(?lon1)) * ?PI/180) AS ?dellor )
+
+# [Output] The result will be stored in ?larm and ?lorm, respectively
+# the latitude and longitude in radians of the mid-point.
+
+# [Warning] The following variables are introduced in the following
+# block: ?PI, ?2PI, ?lat1, ?lon1, ?lat2, ?lon2, ?lar1, ?lor1, ?lar2,
+# ?lor2, ?dellar, ?dellor, ?Bx_sub1, ?Bx_sub2, ?Bx, ?By_sub1,
+# ?By_sub2, ?By, ?lasub1, ?lasub2, ?lasub3, ?lasub4, ?lasub5, ?lasub6,
+# ?lasub7, ?lasub8, ?lasub9, ?lasub10, ?sub1, ?sub2, ?sub3, ?sub4,
+# ?sub5, ?sub6 and finally ?larm and ?lorm. Please make sure not to
+# create conflicts with existing variables of yours!
+
+# [Note] The following bindings are making use of developments in
+# series to approximate some mathematical functions. Practically, we
+# use here the first 7 terms of the series.
+
+######################################################################
+##############  BEGINNING OF GENERATED SPARQL BINDINGS  ##############
+
+BIND ((0+1*(1)/1.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/2.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/24.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/720.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/40320.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/3628800.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/479001600.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/87178291200.0
+)AS ?Bx_sub1)
+
+BIND ((0+1*(1)/1.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/2.0
++1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/24.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/720.0
++1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/40320.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/3628800.0
++1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/479001600.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/87178291200.0
+)AS ?Bx_sub2)
+
+BIND ( ( FLOOR((?Bx_sub1*?Bx_sub2)*100000)/100000 ) AS ?Bx )
+
+BIND ((0+1*(1)/1.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/2.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/24.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/720.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/40320.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/3628800.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/479001600.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/87178291200.0
+)AS ?By_sub1)
+
+BIND ((0+1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/1.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/6.0
++1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/120.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/5040.0
++1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/362880.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/39916800.0
++1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/6227020800.0
++-1*(1* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) )* ((?dellor)-?2PI*FLOOR((?dellor)/?2PI) ))/1307674368000.0
+)AS ?By_sub2)
+
+BIND ( ( FLOOR((?By_sub1*?By_sub2)*100000)/100000 ) AS ?By )
+
+
+
+
+
+
+
+BIND ((0+1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/1.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/6.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/120.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/5040.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/362880.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/39916800.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/6227020800.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/1307674368000.0
+)AS ?lasub1)
+
+BIND ((0+1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/1.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/6.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/120.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/5040.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/362880.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/39916800.0
++1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/6227020800.0
++-1*(1* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) )* ((?lar2)-?2PI*FLOOR((?lar2)/?2PI) ))/1307674368000.0
+)AS ?lasub2)
+
+BIND ((0+1*(1)/1.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/2.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/24.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/720.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/40320.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/3628800.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/479001600.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/87178291200.0
+)AS ?lasub3)
+
+BIND ((0+(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/1.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/3.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/5.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/7.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/9.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/11.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/13.0
++(1*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1))*((( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )-1)/(( (1*(?lasub3+?Bx)*(?lasub3+?Bx)) + (1*?By*?By) )+1)))/15.0
+)AS ?lasub4)
+
+BIND ((0+(1)/1.0
++(1*?lasub4)/1.0
++(1*?lasub4*?lasub4)/2.0
++(1*?lasub4*?lasub4*?lasub4)/6.0
++(1*?lasub4*?lasub4*?lasub4*?lasub4)/24.0
++(1*?lasub4*?lasub4*?lasub4*?lasub4*?lasub4)/120.0
++(1*?lasub4*?lasub4*?lasub4*?lasub4*?lasub4*?lasub4)/720.0
++(1*?lasub4*?lasub4*?lasub4*?lasub4*?lasub4*?lasub4*?lasub4)/5040.0
+)AS ?lasub5)
+
+BIND (((?lasub1+?lasub2)*(?lasub1+?lasub2)+?lasub5*?lasub5)AS ?lasub6)
+
+BIND ((0+(1*(( ?lasub6-1)/( ?lasub6+1)))/1.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/3.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/5.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/7.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/9.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/11.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/13.0
++(1*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1))*(( ?lasub6-1)/( ?lasub6+1)))/15.0
+)AS ?lasub7)
+
+BIND ((0+(1)/1.0
++(1*?lasub7)/1.0
++(1*?lasub7*?lasub7)/2.0
++(1*?lasub7*?lasub7*?lasub7)/6.0
++(1*?lasub7*?lasub7*?lasub7*?lasub7)/24.0
++(1*?lasub7*?lasub7*?lasub7*?lasub7*?lasub7)/120.0
++(1*?lasub7*?lasub7*?lasub7*?lasub7*?lasub7*?lasub7)/720.0
++(1*?lasub7*?lasub7*?lasub7*?lasub7*?lasub7*?lasub7*?lasub7)/5040.0
+)AS ?lasub8)
+
+BIND (((?lasub1+?lasub2)/( ?lasub8+?lasub5))AS ?lasub9)
+
+BIND ((0+1*(1* ?lasub9)/1.0
++-1*(1* ?lasub9* ?lasub9* ?lasub9)/3.0
++1*(1* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9)/5.0
++-1*(1* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9)/7.0
++1*(1* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9)/9.0
++-1*(1* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9)/11.0
++1*(1* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9)/13.0
++-1*(1* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9* ?lasub9)/15.0
+)AS ?lasub10)
+
+BIND ( ( FLOOR((2 * ?lasub10)*100000)/100000 ) AS ?larm )
+
+BIND ((0+1*(1)/1.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/2.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/24.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/720.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/40320.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/3628800.0
++1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/479001600.0
++-1*(1* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) )* ((?lar1)-?2PI*FLOOR((?lar1)/?2PI) ))/87178291200.0
+)AS ?sub1)
+
+BIND ((?By*?By+?sub1*?sub1)AS ?sub2)
+
+BIND ((0+(1*(( ?sub2-1)/( ?sub2+1)))/1.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/3.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/5.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/7.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/9.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/11.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/13.0
++(1*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1))*(( ?sub2-1)/( ?sub2+1)))/15.0
+)AS ?sub3)
+
+BIND ((0+(1)/1.0
++(1*?sub3)/1.0
++(1*?sub3*?sub3)/2.0
++(1*?sub3*?sub3*?sub3)/6.0
++(1*?sub3*?sub3*?sub3*?sub3)/24.0
++(1*?sub3*?sub3*?sub3*?sub3*?sub3)/120.0
++(1*?sub3*?sub3*?sub3*?sub3*?sub3*?sub3)/720.0
++(1*?sub3*?sub3*?sub3*?sub3*?sub3*?sub3*?sub3)/5040.0
+)AS ?sub4)
+
+BIND ((?By/( ?sub4+?sub1))AS ?sub5)
+
+BIND ((0+1*(1* ?sub5)/1.0
++-1*(1* ?sub5* ?sub5* ?sub5)/3.0
++1*(1* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5)/5.0
++-1*(1* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5)/7.0
++1*(1* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5)/9.0
++-1*(1* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5)/11.0
++1*(1* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5)/13.0
++-1*(1* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5* ?sub5)/15.0
+)AS ?sub6)
+
+BIND ( ( FLOOR((?lor1+(2 * ?sub6+?Bx))*100000)/100000 ) AS ?lorm )
+
+### END OF BINDINGS
+### result variables: ?larm & ?lorm
+######################################################################
