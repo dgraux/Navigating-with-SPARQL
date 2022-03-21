@@ -36,6 +36,7 @@ Repository files
 This repository contains:
 
 - `README.md` (this file): providing documentation;
+- `distance_great_circle.txt`: taking two (lat,lon) points, returns their great-circle distance on Earth;
 - `LICENSE`.
 
 
