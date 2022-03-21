@@ -38,6 +38,7 @@ This repository contains:
 - `README.md` (this file): providing documentation;
 - `distance_great_circle.txt`: taking two (lat,lon) points, returns their great-circle distance on Earth;
 - `distance_equirectangular_approx.txt`: performs an equirectangular approximation to compute the distance between points;
+- `distance_to_horizon.txt`:returns the distance to the horizon from a specific height;
 - `LICENSE`.
 
 
