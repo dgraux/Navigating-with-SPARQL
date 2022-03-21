@@ -1,0 +1,82 @@
+
+# Equirectangular approximation to computing distance on Earth
+# ============================================================
+#
+# Damien Graux (Inria), 2022
+
+# This file provides a SPARQL set of bindings used to compute the
+# distance between two points on Earth represented by pairs of
+# (lat,lon), using an equirectangular approximation at the surface of
+# the planet.
+
+# General useful bindings
+BIND ( xsd:double("3.14159265359") AS ?PI )  # π (11 digits).
+BIND ( xsd:double("6.28318530718") AS ?2PI ) # 2π (11 digits).
+BIND ( xsd:double("6371") AS ?E_radius ) # Earth's radius, in km.
+
+# [Inputs] It assumes that the variables representing the points are
+# respectively ( ?lat1 , ?lon1 ) and ( ?lat2 , ?lon2 ) and that they
+# are represented in degrees.
+
+# Possible conversions in radians:
+BIND ( (xsd:double(?lat1) * ?PI/180) AS ?lar1 )
+BIND ( (xsd:double(?lon1) * ?PI/180) AS ?lor1 )
+BIND ( (xsd:double(?lat2) * ?PI/180) AS ?lar2 )
+BIND ( (xsd:double(?lon2) * ?PI/180) AS ?lor2 )
+
+BIND ( ((xsd:double(?lat2)-xsd:double(?lat1)) * ?PI/180) AS ?dellar )
+BIND ( ((xsd:double(?lon2)-xsd:double(?lon1)) * ?PI/180) AS ?dellor )
+
+# [Output] The result will be stored in ?distance.
+
+# [Warning] The following variables are introduced in the following
+# block: ?PI, ?2PI, ?E_radius, ?lat1, ?lon1, ?lat2, ?lon2, ?lar1,
+# ?lor1, ?lar2, ?lor2, ?Xsub1, ?X2, ?sub1, ?sub2, and ?distance.
+# Please make sure not to create conflicts with existing variables of
+# yours!
+
+# [Note] The following bindings are making use of developments in
+# series to approximate some mathematical functions. Practically, we
+# use here the first 7 terms of the series.
+
+######################################################################
+##############  BEGINNING OF GENERATED SPARQL BINDINGS  ##############
+
+BIND ((0+1*(1)/1.0
++-1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/2.0
++1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/24.0
++-1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/720.0
++1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/40320.0
++-1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/3628800.0
++1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/479001600.0
++-1*(1* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) )* (((?lar1+?lar2)/2)-?2PI*FLOOR(((?lar1+?lar2)/2)/?2PI) ))/87178291200.0
+)AS ?Xsub1)
+
+BIND ( ( FLOOR(( (1*(?dellor*?Xsub1)*(?dellor*?Xsub1)) )*100000)/100000 ) AS ?X2 )
+
+BIND ((0+(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/1.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/3.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/5.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/7.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/9.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/11.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/13.0
++(1*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1))*(((?X2+ (1*(?dellar)*(?dellar)) )-1)/((?X2+ (1*(?dellar)*(?dellar)) )+1)))/15.0
+)AS ?sub1)
+
+BIND ((0+(1)/1.0
++(1*?sub1)/1.0
++(1*?sub1*?sub1)/2.0
++(1*?sub1*?sub1*?sub1)/6.0
++(1*?sub1*?sub1*?sub1*?sub1)/24.0
++(1*?sub1*?sub1*?sub1*?sub1*?sub1)/120.0
++(1*?sub1*?sub1*?sub1*?sub1*?sub1*?sub1)/720.0
++(1*?sub1*?sub1*?sub1*?sub1*?sub1*?sub1*?sub1)/5040.0
+)AS ?sub2)
+
+BIND ( ( FLOOR((?E_radius*?sub2)*100000)/100000 ) AS ?distance )
+
+
+### END OF BINDINGS
+### result variable: ?distance
+######################################################################
